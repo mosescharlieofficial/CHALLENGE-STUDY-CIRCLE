@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Faculty - Challenge Study Circle | Best Coaching in Machilipatnam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Preloader styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #dc2626;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #dc2626;
+            letter-spacing: 2px;
+        }
+        .preloader-tagline {
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* Mobile menu animation */
+        .mobile-menu-enter {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+        .mobile-menu-enter-active {
+            max-height: 300px;
+            opacity: 1;
+        }
+        .mobile-menu-exit {
+            max-height: 300px;
+            opacity: 1;
+        }
+        .mobile-menu-exit-active {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="loader mx-auto"></div>
+            <div class="preloader-logo">CSC</div>
+            <div class="preloader-tagline mt-2">Challenge Study Circle</div>
+            <div class="text-sm text-gray-400 mt-1">Machilipatnam</div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/919666234196" class="whatsapp-float flex items-center gap-2">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span class="font-bold hidden sm:inline">Chat with Bhaskar Sir</span>
+    </a>
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="bg-red-600 text-white p-2 rounded-lg font-bold text-xl">CSC</div>
+                <div class="leading-tight">
+                    <h1 class="font-bold text-lg text-red-600">CHALLENGE</h1>
+                    <p class="text-xs font-semibold tracking-widest text-gray-500">STUDY CIRCLE</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-8 font-semibold">
+                <a href="index.html" class="hover:text-red-600">Home</a>
+                <a href="index.html#courses" class="hover:text-red-600">Courses</a>
+                <a href="Faculty.html" class="hover:text-red-600 text-red-600">Faculty</a>
+                <a href="index.html#results" class="hover:text-red-600">Results</a>
+                <a href="index.html#contact" class="hover:text-red-600">Contact</a>
+                <a href="#" class="border border-gray-300 rounded-full px-4 py-1.5 hover:bg-gray-100 transition text-sm">Login</a>
+                <button class="bg-red-600 text-white px-6 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm">Enrol Now</button>
+            </div>
+
+            <!-- Mobile: Hamburger + Enrol -->
+            <div class="flex items-center gap-2 md:hidden">
+                <button class="bg-red-600 text-white px-4 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm">Enrol</button>
+                <button id="menu-btn" class="text-gray-700 focus:outline-none text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-3 font-semibold">
+                <a href="index.html" class="py-2 hover:text-red-600 border-b border-gray-100">Home</a>
+                <a href="index.html#courses" class="py-2 hover:text-red-600 border-b border-gray-100">Courses</a>
+                <a href="Faculty.html" class="py-2 hover:text-red-600 border-b border-gray-100 text-red-600">Faculty</a>
+                <a href="index.html#results" class="py-2 hover:text-red-600 border-b border-gray-100">Results</a>
+                <a href="index.html#contact" class="py-2 hover:text-red-600 border-b border-gray-100">Contact</a>
+                <a href="#" class="py-2 hover:text-red-600 border-b border-gray-100">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Faculty Profile Section -->
+    <section class="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <!-- Section Title -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 border-b-4 border-red-600 inline-block pb-2">Our Mentor</h2>
+                <p class="text-gray-600 mt-4 text-lg">Meet the brain behind Challenge Study Circle</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                <div class="md:flex">
+                    <!-- Left Column: Image -->
+                    <div class="md:w-1/3 bg-red-50 p-8 flex flex-col items-center justify-center">
+                        <!-- Actual profile photo -->
+                        <img src="Bhaskar.png" alt="Bhaskar Sir - Chief Mentor" 
+                             class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-white">
+                        <h3 class="text-3xl font-bold text-gray-800 mt-4">Bhaskar Sir</h3>
+                        <p class="text-red-600 font-semibold text-center mt-1">Chief Mentor · AP History & Modern India</p>
+                        <!-- Social / YouTube Link -->
+                        <a href="https://www.youtube.com/channel/UC09FH1pGQg5HEF45Ucazv9A" target="_blank" 
+                           class="mt-4 bg-red-600 text-white px-6 py-2 rounded-full flex items-center gap-2 hover:bg-red-700 transition">
+                            <i class="fab fa-youtube text-xl"></i> YouTube Classes
+                        </a>
+                    </div>
+
+                    <!-- Right Column: Details -->
+                    <div class="md:w-2/3 p-8">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-chalkboard-teacher text-red-600 mr-3"></i>
+                            Profile Snapshot
+                        </h4>
+
+                        <!-- Stats grid -->
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-red-600">18+</div>
+                                <div class="text-sm text-gray-600">Years Experience</div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-red-600">200+</div>
+                                <div class="text-sm text-gray-600">Selections</div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-red-600">200+</div>
+                                <div class="text-sm text-gray-600">YouTube Videos</div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-red-600">10k+</div>
+                                <div class="text-sm text-gray-600">Students Trained</div>
+                            </div>
+                        </div>
+
+                        <!-- Key Highlights -->
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-red-600 mt-1"></i>
+                                <span><strong>Expert in:</strong> “Vande Mataram Movement”, Home Rule, Moderates – deep specialisation in AP History.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-red-600 mt-1"></i>
+                                <span><strong>Proven track record:</strong> More than 200 selections in Police & Group exams.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-red-600 mt-1"></i>
+                                <span><strong>Teaching style:</strong> Classes in simple Telugu with concept maps and easy-to-remember tricks.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-red-600 mt-1"></i>
+                                <span><strong>Digital presence:</strong> 200+ video classes on YouTube with lakhs of views.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-red-600 mt-1"></i>
+                                <span><strong>Mentorship approach:</strong> Personal guidance, doubt-clearing sessions, and motivational talks.</span>
+                            </li>
+                        </ul>
+
+                        <!-- Quote -->
+                        <div class="mt-6 p-4 bg-red-50 border-l-4 border-red-600 rounded-r-lg italic text-gray-700">
+                            <i class="fas fa-quote-left text-red-600 mr-2"></i>
+                            History is not just dates – it's the story of our struggle. I make it come alive.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-xl font-bold mb-4">Challenge Study Circle</h4>
+                <p class="text-gray-400">Leading the way in competitive exam coaching in Machilipatnam and Krishna District.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Contact Info</h4>
+                <p class="text-gray-400 mb-2"><i class="fas fa-map-marker-alt mr-2"></i> Machilipatnam, AP, 521001</p>
+                <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> +91-9666234196</p>
+                <p class="text-gray-400"><i class="fas fa-envelope mr-2"></i> info@challengestudycircle.com</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Follow Us</h4>
+                <div class="flex gap-4 text-2xl">
+                    <a href="https://www.youtube.com/channel/UC09FH1pGQg5HEF45Ucazv9A" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="hover:text-blue-500"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 pt-8 border-t border-gray-800 text-gray-500">
+            &copy; 2026 Challenge Study Circle. Created with ❤️ for local education.
+        </div>
+    </footer>
+
+    <!-- JavaScript for Preloader & Mobile Menu -->
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.classList.add('fade-out');
+                setTimeout(() => preloader.style.display = 'none', 500);
+            }
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', function() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                    void mobileMenu.offsetWidth;
+                    mobileMenu.classList.add('mobile-menu-enter-active');
+                    setTimeout(() => mobileMenu.classList.remove('mobile-menu-enter-active'), 300);
+                } else {
+                    mobileMenu.classList.add('mobile-menu-exit-active');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('mobile-menu-exit-active');
+                    }, 300);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
