@@ -156,23 +156,23 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
+    <!-- Stats Section with Counting Animation -->
     <section class="bg-white py-12 shadow-inner">
         <div class="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-                <h3 class="text-3xl font-bold text-red-600">1000+</h3>
+                <h3 class="text-3xl font-bold text-red-600"><span id="students-count">0</span>+</h3>
                 <p class="text-gray-600 font-medium">Students Placed</p>
             </div>
             <div>
-                <h3 class="text-3xl font-bold text-red-600">15+</h3>
+                <h3 class="text-3xl font-bold text-red-600"><span id="years-count">0</span>+</h3>
                 <p class="text-gray-600 font-medium">Years Experience</p>
             </div>
             <div>
-                <h3 class="text-3xl font-bold text-red-600">50+</h3>
+                <h3 class="text-3xl font-bold text-red-600"><span id="tests-count">0</span>+</h3>
                 <p class="text-gray-600 font-medium">Mock Tests</p>
             </div>
             <div>
-                <h3 class="text-3xl font-bold text-red-600">4.9/5</h3>
+                <h3 class="text-3xl font-bold text-red-600"><span id="rating-count">0.0</span>/5</h3>
                 <p class="text-gray-600 font-medium">Student Rating</p>
             </div>
         </div>
@@ -297,7 +297,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Preloader & Mobile Menu -->
+    <!-- JavaScript for Preloader, Mobile Menu & Counter Animation -->
     <script>
         // Preloader: fade out after window load
         window.addEventListener('load', function() {
@@ -308,6 +308,8 @@
                     preloader.style.display = 'none';
                 }, 500);
             }
+            // Start the counter animation after preloader
+            startCounters();
         });
 
         // Mobile menu toggle
@@ -331,6 +333,79 @@
                     }, 300);
                 }
             });
+        }
+
+        // Counter Animation Function
+        function startCounters() {
+            // Targets
+            const targets = {
+                students: 1000,
+                years: 15,
+                tests: 50,
+                rating: 4.9
+            };
+
+            // Get elements
+            const studentsEl = document.getElementById('students-count');
+            const yearsEl = document.getElementById('years-count');
+            const testsEl = document.getElementById('tests-count');
+            const ratingEl = document.getElementById('rating-count');
+
+            // Duration in milliseconds (very fast: 1 second)
+            const duration = 1000; // 1 second
+            const frameRate = 60; // frames per second
+            const totalFrames = (duration / 1000) * frameRate;
+            let frame = 0;
+
+            // Increment per frame (except rating, which is decimal)
+            const studentsStep = Math.ceil(targets.students / totalFrames);
+            const yearsStep = Math.ceil(targets.years / totalFrames);
+            const testsStep = Math.ceil(targets.tests / totalFrames);
+            const ratingStep = targets.rating / totalFrames;
+
+            // Current values
+            let currentStudents = 0;
+            let currentYears = 0;
+            let currentTests = 0;
+            let currentRating = 0;
+
+            const timer = setInterval(() => {
+                frame++;
+
+                // Update students
+                if (currentStudents < targets.students) {
+                    currentStudents = Math.min(currentStudents + studentsStep, targets.students);
+                    studentsEl.textContent = currentStudents;
+                }
+
+                // Update years
+                if (currentYears < targets.years) {
+                    currentYears = Math.min(currentYears + yearsStep, targets.years);
+                    yearsEl.textContent = currentYears;
+                }
+
+                // Update tests
+                if (currentTests < targets.tests) {
+                    currentTests = Math.min(currentTests + testsStep, targets.tests);
+                    testsEl.textContent = currentTests;
+                }
+
+                // Update rating (decimal, one decimal place)
+                if (currentRating < targets.rating) {
+                    currentRating = Math.min(currentRating + ratingStep, targets.rating);
+                    ratingEl.textContent = currentRating.toFixed(1);
+                }
+
+                // Stop when all targets reached
+                if (frame >= totalFrames) {
+                    // Ensure final values are exact (avoid rounding issues)
+                    studentsEl.textContent = targets.students;
+                    yearsEl.textContent = targets.years;
+                    testsEl.textContent = targets.tests;
+                    ratingEl.textContent = targets.rating.toFixed(1);
+                    clearInterval(timer);
+                }
+            }, 1000 / frameRate); // ~16.6ms for 60fps
         }
     </script>
 </body>
