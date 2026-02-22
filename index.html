@@ -60,7 +60,7 @@
             transition: max-height 0.3s ease, opacity 0.2s ease;
         }
         .mobile-menu-enter-active {
-            max-height: 300px; /* enough for links */
+            max-height: 300px;
             opacity: 1;
         }
         .mobile-menu-exit {
@@ -110,19 +110,21 @@
             </div>
 
             <!-- Desktop Navigation (hidden on mobile) -->
-            <div class="hidden md:flex gap-8 font-semibold">
+            <div class="hidden md:flex items-center gap-8 font-semibold">
                 <a href="#" class="hover:text-red-600">Home</a>
                 <a href="#courses" class="hover:text-red-600">Courses</a>
                 <a href="#faculty" class="hover:text-red-600">Faculty</a>
                 <a href="#results" class="hover:text-red-600">Results</a>
                 <a href="#contact" class="hover:text-red-600">Contact</a>
+                <!-- NEW: Login button -->
+                <a href="#" class="border border-gray-300 rounded-full px-4 py-1.5 hover:bg-gray-100 transition text-sm">Login</a>
+                <button class="bg-red-600 text-white px-6 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm">Enrol Now</button>
             </div>
 
-            <!-- Desktop Enrol Button (hidden on mobile) + Hamburger -->
-            <div class="flex items-center gap-2">
-                <button class="bg-red-600 text-white px-4 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm md:px-6 md:py-2">Enrol Now</button>
-                <!-- Hamburger Icon (visible only on mobile) -->
-                <button id="menu-btn" class="block md:hidden text-gray-700 focus:outline-none text-2xl">
+            <!-- Mobile: Hamburger + Enrol (simplified) -->
+            <div class="flex items-center gap-2 md:hidden">
+                <button class="bg-red-600 text-white px-4 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm">Enrol</button>
+                <button id="menu-btn" class="text-gray-700 focus:outline-none text-2xl">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -136,6 +138,8 @@
                 <a href="#faculty" class="py-2 hover:text-red-600 border-b border-gray-100">Faculty</a>
                 <a href="#results" class="py-2 hover:text-red-600 border-b border-gray-100">Results</a>
                 <a href="#contact" class="py-2 hover:text-red-600 border-b border-gray-100">Contact</a>
+                <!-- NEW: Login link in mobile menu -->
+                <a href="#" class="py-2 hover:text-red-600 border-b border-gray-100">Login</a>
             </div>
         </div>
     </nav>
@@ -216,7 +220,7 @@
         </div>
     </section>
 
-    <!-- Why Us Section -->
+    <!-- Why Us Section with Formspree Form -->
     <section class="bg-gray-100 py-20">
         <div class="container mx-auto px-4 flex flex-wrap items-center">
             <div class="w-full md:w-1/2 mb-10 md:mb-0">
@@ -243,16 +247,23 @@
             <div class="w-full md:w-1/2">
                 <div class="bg-white p-8 rounded-lg shadow-xl">
                     <h3 class="text-2xl font-bold mb-4">Request a Callback</h3>
-                    <form>
-                        <input type="text" placeholder="Your Name" class="w-full mb-4 p-3 border rounded">
-                        <input type="tel" placeholder="Phone Number" class="w-full mb-4 p-3 border rounded">
-                        <select class="w-full mb-4 p-3 border rounded">
-                            <option>Interested Course</option>
-                            <option>APPSC Group 2</option>
-                            <option>SI / Constable</option>
-                            <option>SSC / RRB</option>
+                    <!-- Form with Formspree endpoint -->
+                    <form action="https://formspree.io/f/mreayngq" method="POST">
+                        <input type="text" name="name" placeholder="Your Name *" required 
+                               class="w-full mb-4 p-3 border rounded focus:ring-2 focus:ring-red-300">
+                        <input type="tel" name="phone" placeholder="Phone Number *" required 
+                               class="w-full mb-4 p-3 border rounded focus:ring-2 focus:ring-red-300">
+                        <select name="course" required class="w-full mb-4 p-3 border rounded focus:ring-2 focus:ring-red-300">
+                            <option value="" disabled selected>Interested Course *</option>
+                            <option value="APPSC Group 2">APPSC Group 2</option>
+                            <option value="SI / Constable">SI / Constable</option>
+                            <option value="SSC / RRB">SSC / RRB</option>
                         </select>
-                        <button class="w-full bg-red-600 text-white font-bold py-3 rounded hover:bg-red-700">Submit Request</button>
+                        <p class="text-xs text-gray-500 mb-3">* All fields are required</p>
+                        <button type="submit" 
+                                class="w-full bg-red-600 text-white font-bold py-3 rounded hover:bg-red-700 transition">
+                            Submit Request
+                        </button>
                     </form>
                 </div>
             </div>
@@ -293,7 +304,6 @@
             const preloader = document.getElementById('preloader');
             if (preloader) {
                 preloader.classList.add('fade-out');
-                // Optionally remove from DOM after transition
                 setTimeout(() => {
                     preloader.style.display = 'none';
                 }, 500);
@@ -308,8 +318,7 @@
             menuBtn.addEventListener('click', function() {
                 if (mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.remove('hidden');
-                    // Trigger reflow for animation
-                    void mobileMenu.offsetWidth;
+                    void mobileMenu.offsetWidth; // trigger reflow
                     mobileMenu.classList.add('mobile-menu-enter-active');
                     setTimeout(() => {
                         mobileMenu.classList.remove('mobile-menu-enter-active');
