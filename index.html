@@ -2,11 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Challenge Study Circle | Best Coaching in Machilipatnam</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Preloader styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #dc2626; /* red-600 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #dc2626;
+            letter-spacing: 2px;
+        }
+        .preloader-tagline {
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* Mobile menu animation */
+        .mobile-menu-enter {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+        .mobile-menu-enter-active {
+            max-height: 300px; /* enough for links */
+            opacity: 1;
+        }
+        .mobile-menu-exit {
+            max-height: 300px;
+            opacity: 1;
+        }
+        .mobile-menu-exit-active {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+
         .hero-gradient { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1524178232363-1fb28f74b583?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; }
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; padding: 15px; border-radius: 50px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); z-index: 100; transition: transform 0.3s; }
         .whatsapp-float:hover { transform: scale(1.1); }
@@ -14,13 +81,26 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="loader mx-auto"></div>
+            <div class="preloader-logo">CSC</div>
+            <div class="preloader-tagline mt-2">Challenge Study Circle</div>
+            <div class="text-sm text-gray-400 mt-1">Machilipatnam</div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/919666234196" class="whatsapp-float flex items-center gap-2">
         <i class="fab fa-whatsapp text-2xl"></i>
-        <span class="font-bold">Chat with Bhaskar Sir</span>
+        <span class="font-bold hidden sm:inline">Chat with Bhaskar Sir</span>
     </a>
 
+    <!-- Navbar -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
             <div class="flex items-center gap-2">
                 <div class="bg-red-600 text-white p-2 rounded-lg font-bold text-xl">CSC</div>
                 <div class="leading-tight">
@@ -28,6 +108,8 @@
                     <p class="text-xs font-semibold tracking-widest text-gray-500">STUDY CIRCLE</p>
                 </div>
             </div>
+
+            <!-- Desktop Navigation (hidden on mobile) -->
             <div class="hidden md:flex gap-8 font-semibold">
                 <a href="#" class="hover:text-red-600">Home</a>
                 <a href="#courses" class="hover:text-red-600">Courses</a>
@@ -35,10 +117,30 @@
                 <a href="#results" class="hover:text-red-600">Results</a>
                 <a href="#contact" class="hover:text-red-600">Contact</a>
             </div>
-            <button class="bg-red-600 text-white px-6 py-2 rounded-full font-bold hover:bg-red-700 transition">Enrol Now</button>
+
+            <!-- Desktop Enrol Button (hidden on mobile) + Hamburger -->
+            <div class="flex items-center gap-2">
+                <button class="bg-red-600 text-white px-4 py-2 rounded-full font-bold hover:bg-red-700 transition text-sm md:px-6 md:py-2">Enrol Now</button>
+                <!-- Hamburger Icon (visible only on mobile) -->
+                <button id="menu-btn" class="block md:hidden text-gray-700 focus:outline-none text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ease-in-out">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-3 font-semibold">
+                <a href="#" class="py-2 hover:text-red-600 border-b border-gray-100">Home</a>
+                <a href="#courses" class="py-2 hover:text-red-600 border-b border-gray-100">Courses</a>
+                <a href="#faculty" class="py-2 hover:text-red-600 border-b border-gray-100">Faculty</a>
+                <a href="#results" class="py-2 hover:text-red-600 border-b border-gray-100">Results</a>
+                <a href="#contact" class="py-2 hover:text-red-600 border-b border-gray-100">Contact</a>
+            </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero-gradient h-[500px] flex items-center text-white text-center">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Your Success is Our Challenge</h2>
@@ -50,6 +152,7 @@
         </div>
     </section>
 
+    <!-- Stats Section -->
     <section class="bg-white py-12 shadow-inner">
         <div class="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
@@ -71,6 +174,7 @@
         </div>
     </section>
 
+    <!-- Courses Section -->
     <section id="courses" class="py-20 container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 border-b-4 border-red-600 inline-block pb-2">Our Special Coaching Programs</h2>
@@ -112,6 +216,7 @@
         </div>
     </section>
 
+    <!-- Why Us Section -->
     <section class="bg-gray-100 py-20">
         <div class="container mx-auto px-4 flex flex-wrap items-center">
             <div class="w-full md:w-1/2 mb-10 md:mb-0">
@@ -154,6 +259,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer id="contact" class="bg-gray-900 text-white py-12">
         <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12">
             <div>
@@ -180,5 +286,43 @@
         </div>
     </footer>
 
+    <!-- JavaScript for Preloader & Mobile Menu -->
+    <script>
+        // Preloader: fade out after window load
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.classList.add('fade-out');
+                // Optionally remove from DOM after transition
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', function() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                    // Trigger reflow for animation
+                    void mobileMenu.offsetWidth;
+                    mobileMenu.classList.add('mobile-menu-enter-active');
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('mobile-menu-enter-active');
+                    }, 300);
+                } else {
+                    mobileMenu.classList.add('mobile-menu-exit-active');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('mobile-menu-exit-active');
+                    }, 300);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
